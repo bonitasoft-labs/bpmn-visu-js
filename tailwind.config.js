@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-// eslint-disable-next-line no-console
-console.info('called tailwind config');
 module.exports = {
+  mode: 'jit', // TODO investigate, recommended by snowpack but still experimental on tailwind side, but much faster
   purge: {
     enabled: true,
     content: ['./dev/public/index.html'],
