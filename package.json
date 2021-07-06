@@ -92,6 +92,7 @@
   "devDependencies": {
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^13.0.0",
+    "@snowpack/plugin-postcss": "^1.4.1",
     "@typed-mxgraph/typed-mxgraph": "^1.0.4",
     "@types/debug": "^4.1.6",
     "@types/jest": "^26.0.23",
