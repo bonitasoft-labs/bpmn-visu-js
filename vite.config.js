@@ -13,3 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+/**
+ * @type {import('vite').UserConfig}
+ */
+const config = {
+  publicDir: 'dev/public',
+
+  // ...
+  server: {
+    port: 10001,
+  },
+};
+
+export default config;
