@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import resolve from '@rollup/plugin-node-resolve';
+
 /**
  * @type {import('vite').UserConfig}
  */
@@ -25,6 +27,15 @@ const config = {
   // ...
   server: {
     port: 10001,
+  },
+
+  build: {
+    rollupOptions: {
+      input: {
+        main: resolve(__dirname, 'dev/public/index.html'),
+        // nested: resolve(__dirname, 'nested/index.html'),
+      },
+    },
   },
 };
 
