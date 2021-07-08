@@ -18,7 +18,9 @@
  * @type {import('vite').UserConfig}
  */
 const config = {
-  publicDir: 'dev/public',
+  // to access to the pages, put dev/public in the url
+  // the following configuration let access pages via / but don't start the HMR to work as the resources are considered as static/unchanged
+  //publicDir: 'dev/public',
 
   // ...
   server: {
