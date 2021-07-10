@@ -18,7 +18,9 @@ const defaultPlugins = {
   autoprefixer: {},
 };
 
-const plugins = process.env.devLiveReloadMode
+// TODO manage development/production
+const isDevelopment = true;
+const plugins = isDevelopment
   ? defaultPlugins
   : {
       ...defaultPlugins,
