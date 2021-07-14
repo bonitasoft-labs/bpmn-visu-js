@@ -37,7 +37,7 @@ describe.each([1, 2, 3, 4, 5])('zoom performance', run => {
   let containerCenterY: number;
 
   beforeEach(async () => {
-    const bpmnContainerElementHandle = await pageTester.loadBPMNDiagramInRefreshedPage(fileName);
+    const bpmnContainerElementHandle = await pageTester.loadBPMNDiagramInRefreshedPage(`performance/${fileName}`);
     const bounding_box = await bpmnContainerElementHandle.boundingBox();
     containerCenterX = bounding_box.x + bounding_box.width / 2;
     containerCenterY = bounding_box.y + bounding_box.height / 2;

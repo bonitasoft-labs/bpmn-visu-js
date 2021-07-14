@@ -31,5 +31,4 @@ module.exports = {
       tsconfig: '<rootDir>/tsconfig.jest.json',
     },
   },
-  setupFiles: ['./test/e2e/config/copy.bpmn.diagram.ts'],
 };

@@ -20,8 +20,9 @@ import {
   ImageSnapshotThresholdConfig,
   MultiBrowserImageSnapshotThresholds,
 } from './helpers/visu/image-snapshot-config';
-import { PageTester } from './helpers/visu/bpmn-page-utils';
+import { PageOptions, PageTester } from './helpers/visu/bpmn-page-utils';
 import { getBpmnDiagramNames } from './helpers/test-utils';
+import { ElementHandle } from 'playwright-core';
 
 class ImageSnapshotThresholds extends MultiBrowserImageSnapshotThresholds {
   // threshold for webkit is taken from macOS only
@@ -294,12 +295,16 @@ describe('BPMN rendering', () => {
   const pageTester = new PageTester({ pageFileName: 'non-regression', expectedPageTitle: 'BPMN Visualization Non Regression' });
   const bpmnDiagramNames = getBpmnDiagramNames('non-regression');
 
+  async function loadBPMNDiagramInRefreshedPage(diagram: string, pageOptions: PageOptions): Promise<ElementHandle<SVGElement | HTMLElement>> {
+    return pageTester.loadBPMNDiagramInRefreshedPage(`non-regression/${diagram}`, pageOptions);
+  }
+
   it('check bpmn non-regression files availability', () => {
     expect(bpmnDiagramNames).toContain('gateways');
   });
 
   it.each(bpmnDiagramNames)(`%s`, async (bpmnDiagramName: string) => {
-    await pageTester.loadBPMNDiagramInRefreshedPage(bpmnDiagramName, {
+    await loadBPMNDiagramInRefreshedPage(bpmnDiagramName, {
       styleOptions: { sequenceFlow: { useLightColors: useSequenceFlowLightColorOptions.get(bpmnDiagramName) ?? false } },
     });
 

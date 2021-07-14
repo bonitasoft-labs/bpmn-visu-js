@@ -100,7 +100,9 @@ export class PageTester {
   protected async doLoadBPMNDiagramInRefreshedPage(url: string, checkResponseStatus = true): Promise<ElementHandle<SVGElement | HTMLElement>> {
     const response = await page.goto(url);
     if (checkResponseStatus) {
-      expect(response.status()).toBe(200);
+      // TODO fix inverted condition that also check 304 response, use https://www.npmjs.com/package/jest-extended#tobeoneofmembers
+      //expect(response.status()).toBe(200);
+      expect([200, 304]).toContain(response.status());
     }
 
     await this.bpmnPage.expectPageTitle(this.targetedPage.expectedPageTitle);
@@ -134,7 +136,7 @@ export class BpmnPageSvgTester extends PageTester {
     this.bpmnQuerySelectors = new BpmnQuerySelectorsForTests(this.bpmnContainerId);
   }
 
-  override async loadBPMNDiagramInRefreshedPage(bpmnDiagramName?: string): Promise<ElementHandle<SVGElement | HTMLElement>> {
+  async loadBPMNDiagramInRefreshedPage(bpmnDiagramName?: string): Promise<ElementHandle<SVGElement | HTMLElement>> {
     return super.loadBPMNDiagramInRefreshedPage(bpmnDiagramName ?? 'not-used-dedicated-diagram-loaded-by-the-page', {
       loadOptions: {
         fit: {

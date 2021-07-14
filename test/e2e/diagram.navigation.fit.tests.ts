@@ -18,8 +18,9 @@ import { MatchImageSnapshotOptions } from 'jest-image-snapshot';
 import 'jest-playwright-preset';
 import { FitType } from '../../src/component/options';
 import { ImageSnapshotConfigurator, ImageSnapshotThresholdConfig, MultiBrowserImageSnapshotThresholds } from './helpers/visu/image-snapshot-config';
-import { PageTester } from './helpers/visu/bpmn-page-utils';
+import { PageOptions, PageTester } from './helpers/visu/bpmn-page-utils';
 import { clickOnButton, getBpmnDiagramNames } from './helpers/test-utils';
+import { ElementHandle } from 'playwright-core';
 
 class FitImageSnapshotConfigurator extends ImageSnapshotConfigurator {
   getConfig(param: {
@@ -145,11 +146,15 @@ describe('diagram navigation - fit', () => {
 
   const pageTester = new PageTester({ pageFileName: 'diagram-navigation', expectedPageTitle: 'BPMN Visualization - Diagram Navigation' });
 
+  async function loadBPMNDiagramInRefreshedPage(diagram: string, pageOptions?: PageOptions): Promise<ElementHandle<SVGElement | HTMLElement>> {
+    return pageTester.loadBPMNDiagramInRefreshedPage(`non-regression/${diagram}`, pageOptions);
+  }
+
   const fitTypes: FitType[] = [FitType.None, FitType.HorizontalVertical, FitType.Horizontal, FitType.Vertical, FitType.Center];
   describe.each(fitTypes)('load options - fit %s', (onLoadFitType: FitType) => {
     describe.each(bpmnDiagramNames)('diagram %s', (bpmnDiagramName: string) => {
       it('load', async () => {
-        await pageTester.loadBPMNDiagramInRefreshedPage(bpmnDiagramName, {
+        await loadBPMNDiagramInRefreshedPage(bpmnDiagramName, {
           loadOptions: {
             fit: {
               type: onLoadFitType,
@@ -168,7 +173,7 @@ describe('diagram navigation - fit', () => {
       });
 
       it.each(fitTypes)(`load + fit %s`, async (afterLoadFitType: FitType) => {
-        await pageTester.loadBPMNDiagramInRefreshedPage(bpmnDiagramName, {
+        await loadBPMNDiagramInRefreshedPage(bpmnDiagramName, {
           loadOptions: {
             fit: {
               type: onLoadFitType,
@@ -193,7 +198,7 @@ describe('diagram navigation - fit', () => {
         (onLoadFitType === FitType.Vertical && bpmnDiagramName === 'vertical')
       ) {
         it.each([-100, 0, 20, 50, null])('load with margin %s', async (margin: number) => {
-          await pageTester.loadBPMNDiagramInRefreshedPage(bpmnDiagramName, {
+          await loadBPMNDiagramInRefreshedPage(bpmnDiagramName, {
             loadOptions: {
               fit: {
                 type: onLoadFitType,

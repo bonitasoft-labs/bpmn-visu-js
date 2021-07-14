@@ -110,3 +110,7 @@ export interface Overlay {
   label?: string;
   style?: OverlayStyle;
 }
+
+// fake for esbuild, otherwise no js file is generated because it only contains types
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+class Fake {}

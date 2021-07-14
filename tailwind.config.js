@@ -13,10 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 module.exports = {
+  mode: 'jit', // TODO investigate, recommended by snowpack but still experimental on tailwind side, but much faster
   purge: {
     enabled: true,
-    content: ['./dev/index.html'],
+    content: ['./dev/public/index.html'],
   },
   darkMode: false, // or 'media' or 'class'
   theme: {

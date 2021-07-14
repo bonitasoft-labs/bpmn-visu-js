@@ -71,12 +71,16 @@ describe('diagram navigation - zoom and pan', () => {
   // to have mouse pointer visible during headless test - add 'showMousePointer: true' as parameter
   const pageTester = new PageTester({ pageFileName: 'diagram-navigation', expectedPageTitle: 'BPMN Visualization - Diagram Navigation' });
 
+  async function loadBPMNDiagramInRefreshedPage(diagram: string): Promise<ElementHandle<SVGElement | HTMLElement>> {
+    return pageTester.loadBPMNDiagramInRefreshedPage(`navigation/${diagram}`);
+  }
+
   const bpmnDiagramName = 'simple.2.start.events.1.task';
   let bpmnContainerElementHandle: ElementHandle<SVGElement | HTMLElement>;
   let containerCenter: Point;
 
   beforeEach(async () => {
-    bpmnContainerElementHandle = await pageTester.loadBPMNDiagramInRefreshedPage(bpmnDiagramName);
+    bpmnContainerElementHandle = await loadBPMNDiagramInRefreshedPage(bpmnDiagramName);
     containerCenter = await getContainerCenter(bpmnContainerElementHandle);
   });
 

@@ -18,7 +18,9 @@ const defaultPlugins = {
   autoprefixer: {},
 };
 
-const plugins = process.env.devLiveReloadMode
+// TODO use the env var set by snowpack
+const devCss = true; // process.env.devLiveReloadMode
+const plugins = devCss
   ? defaultPlugins
   : {
       ...defaultPlugins,

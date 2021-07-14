@@ -156,6 +156,10 @@ const imageSnapshotConfigurator = new ImageSnapshotConfigurator(imageSnapshotThr
 // to have mouse pointer visible during headless test - add 'showMousePointer: true' as parameter
 const pageTester = new PageTester({ pageFileName: 'overlays', expectedPageTitle: 'BPMN Visualization - Overlays' });
 
+async function loadBPMNDiagramInRefreshedPage(diagram: string): Promise<ElementHandle<SVGElement | HTMLElement>> {
+  return pageTester.loadBPMNDiagramInRefreshedPage(`overlays/${diagram}`);
+}
+
 describe('BPMN Shapes with overlays', () => {
   const bpmnDiagramName = 'overlays.start.flow.task.gateway';
 
@@ -164,7 +168,7 @@ describe('BPMN Shapes with overlays', () => {
   }
 
   it.each(overlayShapePositionValues)(`add overlay on StartEvent, Gateway and Task on %s`, async (position: OverlayShapePosition) => {
-    await pageTester.loadBPMNDiagramInRefreshedPage(bpmnDiagramName);
+    await loadBPMNDiagramInRefreshedPage(bpmnDiagramName);
 
     await addOverlays(['StartEvent_1', 'Activity_1', 'Gateway_1'], position);
 
@@ -179,7 +183,7 @@ describe('BPMN Shapes with overlays', () => {
   });
 
   it(`remove all overlays of Shape`, async () => {
-    await pageTester.loadBPMNDiagramInRefreshedPage(bpmnDiagramName);
+    await loadBPMNDiagramInRefreshedPage(bpmnDiagramName);
 
     await addOverlays('Activity_1', ['top-left', 'bottom-left', 'middle-right']);
 
@@ -228,7 +232,7 @@ describe('BPMN Edges with overlays', () => {
     }
 
     it.each(overlayEdgePositionValues)(`add overlay on ${edgeKind} flow on %s`, async (position: OverlayEdgePosition) => {
-      await pageTester.loadBPMNDiagramInRefreshedPage(bpmnDiagramName);
+      await loadBPMNDiagramInRefreshedPage(bpmnDiagramName);
 
       await addOverlays(bpmnElementIds, position);
 
@@ -243,7 +247,7 @@ describe('BPMN Edges with overlays', () => {
     });
 
     it(`remove all overlays of ${edgeKind} flow`, async () => {
-      await pageTester.loadBPMNDiagramInRefreshedPage(bpmnDiagramName);
+      await loadBPMNDiagramInRefreshedPage(bpmnDiagramName);
 
       const id = bpmnElementIds.shift();
       await addOverlays(id, ['start', 'middle', 'end']);
@@ -268,7 +272,7 @@ describe('Overlay navigation', () => {
   let containerCenter: Point;
 
   beforeEach(async () => {
-    bpmnContainerElementHandle = await pageTester.loadBPMNDiagramInRefreshedPage(bpmnDiagramName);
+    bpmnContainerElementHandle = await loadBPMNDiagramInRefreshedPage(bpmnDiagramName);
     containerCenter = await getContainerCenter(bpmnContainerElementHandle);
 
     await addOverlays('StartEvent_1', 'bottom-center');
@@ -400,7 +404,7 @@ describe('Overlay style', () => {
   const imageSnapshotConfigurator = new ImageSnapshotConfigurator(imageSnapshotThresholds.getThresholds(), 'overlays', imageSnapshotThresholds.getDefault());
 
   it.each(['fill', 'font', 'stroke'])(`add overlay with custom %s`, async (style: string) => {
-    await pageTester.loadBPMNDiagramInRefreshedPage(bpmnDiagramName);
+    await loadBPMNDiagramInRefreshedPage(bpmnDiagramName);
 
     await addStylingOverlay(['StartEvent_1', 'Activity_1', 'Gateway_1', 'Flow_1'], style);
 
